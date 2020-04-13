@@ -2,6 +2,7 @@
 Simple graph implementation
 """
 from util import Stack, Queue  # These may come in handy
+import pdb
 
 class Graph:
 
@@ -26,11 +27,11 @@ class Graph:
         else: 
             print(f"ERROR: Adding edge, vertex{v1} or vertex {v2} not found.")
 
+    
     def get_neighbors(self, vertex_id):
         """
         Get all neighbors (edges) of a vertex.
         """
-        pass  # TODO
         if vertex_id in self.vertices:
             return self.vertices[vertex_id]
         else:
@@ -44,7 +45,9 @@ class Graph:
         """
         # create a queue and enque starting_vertex
         qq = Queue()
-        qq.enqueue(starting_vertex)
+        qq.enqueue([starting_vertex])
+
+        # start python debugger.  pdb.set_trace() 
         # breakpoint()
         # pdb.set_trace()
 
@@ -55,11 +58,11 @@ class Graph:
             # dequeue/pop first vertex
             path = qq.dequeue()
             # if path not in visited:
-            if path(-1) not in visited:
+            if path[-1] not in visited:
                 # Do the thing
-                print(path(-1))
+                print(path[-1])
                 # add to visited
-                visited.add(path(-1))
+                visited.add(path[-1])
                 # enqueue all neighbors
                 for next_vert in self.get_neighbors(path[-1]):
                     new_path = list(path)
@@ -71,7 +74,31 @@ class Graph:
         Print each vertex in depth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+        # create a queue and enque starting_vertex
+        ss = Stack()
+        ss.push([starting_vertex])
+
+        # start python debugger.  pdb.set_trace() 
+        # breakpoint()
+        # pdb.set_trace()
+
+        # create a set of traversed vertices
+        visited = set()
+        # while queue is not empty:
+        while ss.size() > 0:
+            # dequeue/pop first vertex
+            path = ss.pop()
+            # if path not in visited:
+            if path[-1] not in visited:
+                # Do the thing
+                print(path[-1])
+                # add to visited
+                visited.add(path[-1])
+                # enqueue all neighbors
+                for next_vert in self.get_neighbors(path[-1]):
+                    new_path = list(path)
+                    new_path.append(next_vert)
+                    ss.push(new_path)
 
     def dft_recursive(self, starting_vertex):
         """
@@ -88,7 +115,21 @@ class Graph:
         starting_vertex to destination_vertex in
         breath-first order.
         """
-        pass  # TODO
+        qq = Queue()
+        qq.enqueue([starting_vertex])  # this is enqueued as a list so we can add to the list.
+        visited = set()
+
+        while qq.size > 0:
+            # path is a list of the connected verts checked, 
+            path = qq.dequeue()
+
+            if path[-1] is destination_vertex:
+                return path
+
+            if path[-1] not in visited:
+                visited.add(path[-1])
+                # Do the thing!
+
 
     def dfs(self, starting_vertex, destination_vertex):
         """
@@ -175,3 +216,28 @@ if __name__ == '__main__':
     '''
     print(graph.dfs(1, 6))
     print(graph.dfs_recursive(1, 6))
+
+# import time
+
+# def test_set():
+#     start = time.time()
+#     myset = set([0,1,2,3,4,5])
+#     print("method set: ", type(myset))
+#     end = time.time()
+#     result = (end - start) * 1000
+#     print("method time: ", result)
+#     return result
+
+
+# def test_set_literal():
+#     start = time.time()
+#     myliteralset = {0,1,2,3,4,5}
+#     print("my literal set: ", type(myliteralset))
+#     end = time.time()
+#     result = (end - start) * 1000
+#     print("literal time: ", result)
+#     return result
+
+
+# test_set()
+# test_set_literal()
