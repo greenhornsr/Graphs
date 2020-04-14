@@ -108,7 +108,7 @@ class Graph:
         # while queue is not empty:
         while ss.size() > 0:
             # dequeue/pop first vertex
-            path = ss.pop()
+            path = ss.pop() # <-- important to POP before anything else in the loop when using a stack or you can end up in an infinite loop.
             # if path not in visited:
             if path[-1] not in visited:
                 # Do the thing
@@ -128,19 +128,18 @@ class Graph:
 
         This should be done using recursion.
         """
+        # Initial Case
         if visited is None:
             visited = set()
-
+        # Tracking Visited Verts
         if starting_vertex not in visited:
             print(starting_vertex)
             visited.add(starting_vertex)
 
             for neighbor in self.get_neighbors(starting_vertex):
+                # this is the break/base case
                 if neighbor not in visited:
                     self.dft_recursive(neighbor, visited)
-                else:
-                    return
-        return
 
     def bfs(self, starting_vertex, destination_vertex):
         """
