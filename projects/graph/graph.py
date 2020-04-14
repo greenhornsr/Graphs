@@ -203,20 +203,26 @@ class Graph:
 
         This should be done using recursion.
         """
+        # Initial Case 1
         if visited is None:
             visited = set()
-        
+        # Initial Case 2
         if path is None:
             path = []
 
+        # Track visited Nodes
         if starting_vertex not in visited:
             visited.add(starting_vertex)
             path_copy = path.copy()
             path_copy.append(starting_vertex)
+        # Do the Thing; also one of our base/break cases
             if starting_vertex is destination_vertex:
-                return path_copy        
+                return path_copy    
+        # Check for neighbors, recurse
             for neighbor in self.get_neighbors(starting_vertex):
+                # Break Case
                 new_path = self.dfs_recursive(neighbor, destination_vertex, visited, path_copy)
+                # If there is a new_path, return it.  
                 if new_path is not None:
                     return new_path
 
