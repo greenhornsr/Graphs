@@ -135,7 +135,7 @@ class Graph:
         if starting_vertex not in visited:
             print(starting_vertex)
             visited.add(starting_vertex)
-
+            # Loop through neighboring verts, check if visited, recurse.
             for neighbor in self.get_neighbors(starting_vertex):
                 # this is the break/base case
                 if neighbor not in visited:
