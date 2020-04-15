@@ -62,7 +62,7 @@ def build_graph(graph, ancestors):
 
 # depth first traversal for earliest ancestor.
 def cust_dft(graph, starting_node):
-    start_time = time.time()
+    # start_time = time.time()
     # create Stack.
     ss = Stack()
     ss.push([starting_node]) 
@@ -92,17 +92,19 @@ def cust_dft(graph, starting_node):
             visited.add(path[-1])
 
             for neighbor in graph.get_neighbors(path[-1]):
+                # make copy of path from Stack
                 new_path = path.copy()
-                # print("new_path", new_path)
+                # adds next value/vert to the copied path
                 new_path.append(neighbor)
+                # add/push the latest path to the Stack
                 ss.push(new_path)
-    end_time = time.time()
-    print("DFT: ", (end_time - start_time) * 1000)    
+    # end_time = time.time()
+    # print("DFT: ", (end_time - start_time) * 1000)    
     return anc_path[-1]
 
 # bft approach
 def cust_bft(graph, starting_vert):
-    start_time = time.time()
+    # start_time = time.time()
 
     qq = Queue()
     qq.enqueue([starting_vert])
@@ -129,8 +131,8 @@ def cust_bft(graph, starting_vert):
                 path_copy.append(next_vert)
                 qq.enqueue(path_copy)
             
-    end_time = time.time()
-    print("BFT: ", (end_time - start_time) * 1000)  
+    # end_time = time.time()
+    # print("BFT: ", (end_time - start_time) * 1000)  
     return anc_path[-1]
 
 
