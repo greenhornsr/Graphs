@@ -35,7 +35,13 @@ class Graph:
         """
         Add a vertex to the graph.
         """
-        self.vertices[vertex_id] = set()
+        # quality check for possible duplicate vertice.
+        if vertex_id in self.vertices:
+            warning = f"WARNING: vert: {vertex_id} already exists!  No need to add the vert again."
+            print(warning)
+            return warning
+        else: 
+            self.vertices[vertex_id] = set()
 
     def add_edge(self, v1, v2):
         """

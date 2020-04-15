@@ -25,18 +25,26 @@ Write a function that, given the dataset and the ID of an individual in the data
 Example input
   6
 
-  1 3
-  2 3
-  3 6
-  5 6
-  5 7
-  4 5
-  4 8
-  8 9
-  11 8
-  10 1
+# checking the 3 node
+  1 3   # 1 is parent of 3
+  2 3   # 2 is parent of 3
+  3 6   # 3 is parent of 6
+
+# checking the 5 node
+  5 6   # 5 is parent of 6
+  5 7   # 5 is parent of 7
+  4 5   # 4 is parent of 5
+
+# checking the 8 node
+  4 8   # 4 is parent of 8
+  8 9   # 8 is parent of 9
+  11 8  # 11 is parent of 8
+
+# checking the 1 node
+  10 1  # 10 is parent of 1
+
 Example output
-  10
+  10    # last parent, no additional connected verts found.
 ```
 
 Clarifications:
