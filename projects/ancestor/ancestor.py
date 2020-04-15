@@ -1,10 +1,11 @@
+import time
+import pdb
 import sys
 sys.path.append('../graph')
 
 from graph import Graph
 from util import Queue, Stack
 
-import pdb
 
 # Original Graph
 '''
@@ -38,10 +39,14 @@ def earliest_ancestor(ancestors, starting_node):
 
     # if length of the value in any given vert is 0(empty), return negative 1.
     if len(g.vertices[starting_node]) is 0:
-        # print("test")
+        print("starting vert value is 0: ", -1)
         return -1
 
-    return cust_dft(g, starting_node)    
+    # return results from dft
+    # return cust_dft(g, starting_node)  
+    
+    # return results from bft
+    return cust_bft(g, starting_node)    
 
 
 
@@ -55,12 +60,14 @@ def build_graph(graph, ancestors):
         # invert the edges to make a top to bottom graph.
         graph.add_edge(tup[1], tup[0])
 
-def cust_dft(g, starting_node):
+# depth first traversal for earliest ancestor.
+def cust_dft(graph, starting_node):
+    start_time = time.time()
     # create Stack.
     ss = Stack()
     ss.push([starting_node]) 
 
-    print("Latest graph: ", g.vertices)
+    # print("Latest graph: ", graph.vertices)
     visited = set()
 
     # tracking ancestors path
@@ -70,6 +77,7 @@ def cust_dft(g, starting_node):
     while ss.size() > 0:
         path = ss.pop()
 
+        # do the thing
         if len(path) > len(anc_path):
             anc_path = path
 
@@ -77,32 +85,64 @@ def cust_dft(g, starting_node):
             if path[-1] < anc_path[-1]:
                 anc_path = path
 
-
+        # check if vert/node has been visited
         if path[-1] not in visited:
-            # do the thing...
             # print("path: ", path[-1])
             # add path[-1] to visited
             visited.add(path[-1])
-                        
-            for neighbor in g.get_neighbors(path[-1]):
+
+            for neighbor in graph.get_neighbors(path[-1]):
                 new_path = path.copy()
                 # print("new_path", new_path)
                 new_path.append(neighbor)
                 ss.push(new_path)
+    end_time = time.time()
+    print("DFT: ", (end_time - start_time) * 1000)    
+    return anc_path[-1]
+
+# bft approach
+def cust_bft(graph, starting_vert):
+    start_time = time.time()
+
+    qq = Queue()
+    qq.enqueue([starting_vert])
+
+    visited = set()
+    anc_path = [starting_vert]
+
+    while qq.size() > 0:
+        path = qq.dequeue()
+        # print("dequeue path: ", path)
+
+        if len(path) > len(anc_path):
+            anc_path = path
         
+        if len(path) == len(anc_path):
+            if path[-1] < anc_path[-1]:
+                anc_path = path
+
+        if path[-1] not in visited:
+            visited.add(path[-1])
+
+            for next_vert in graph.get_neighbors(path[-1]):
+                path_copy = list(path)
+                path_copy.append(next_vert)
+                qq.enqueue(path_copy)
+            
+    end_time = time.time()
+    print("BFT: ", (end_time - start_time) * 1000)  
     return anc_path[-1]
 
 
-
 # *****END HELPERS******
+# python debugger
 # pdb.set_trace()
 
 # for testing/checking code.
 parent_child_rel = [(10, 1), (1,3), (2,3), (4,5), (4,8), (3,6), (5,6), (5,7), (11,8), (8,9)]
 
 
-
-earliest_ancestor(parent_child_rel, 6)
+earliest_ancestor(parent_child_rel, 8)
 # qq = Queue()
 # ss = Stack()
 # print("ancestors: ", parent_child_rel)
