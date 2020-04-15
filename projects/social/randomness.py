@@ -33,7 +33,7 @@ for i in range(len(l)):
     l[i], l[rand_index] = l[rand_index], l[i]
     print(f"swapping index l[{i}] with random index l[{rand_index}]")
 
-    print(f"altered list: {l}")
+    print(f"altered list: {l}\n\n")
 
 
 

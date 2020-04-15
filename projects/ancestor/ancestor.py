@@ -39,7 +39,7 @@ def earliest_ancestor(ancestors, starting_node):
 
     # if length of the value in any given vert is 0(empty), return negative 1.
     if len(g.vertices[starting_node]) is 0:
-        print("starting vert value is 0: ", -1)
+        # print("starting vert value is 0: ", -1)
         return -1
 
     # return results from dft
