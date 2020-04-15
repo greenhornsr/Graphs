@@ -38,7 +38,7 @@ class Graph:
         # quality check for possible duplicate vertice.
         if vertex_id in self.vertices:
             warning = f"WARNING: vert: {vertex_id} already exists!  No need to add the vert again."
-            print(warning)
+            # print(warning)
             return warning
         else: 
             self.vertices[vertex_id] = set()
