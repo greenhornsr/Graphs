@@ -36,18 +36,36 @@ def earliest_ancestor(ancestors, starting_node):
     # Add vertices first, then edges.  Edges won't add until vertices exist.
     build_graph(g, ancestors)
 
-    # create queue.
+    # if length of the value in any given vert is 0(empty), return negative 1.
+    if len(g.vertices[starting_node]) is 0:
+        # print("test")
+        return -1
+
+    return cust_dft(g, starting_node)    
+
+
+
+# ****Helper Functions****
+# add vert method.
+def build_graph(graph, ancestors):
+    for tup in ancestors:
+        # add_vertex is a Graph class method from graph.py.
+        graph.add_vertex(tup[0])
+        graph.add_vertex(tup[1])
+        # invert the edges to make a top to bottom graph.
+        graph.add_edge(tup[1], tup[0])
+
+def cust_dft(g, starting_node):
+    # create Stack.
     ss = Stack()
     ss.push([starting_node]) 
 
     print("Latest graph: ", g.vertices)
     visited = set()
 
+    # tracking ancestors path
     anc_path = [starting_node]
 
-    if len(g.vertices[starting_node]) is 0:
-        # print("test")
-        return -1
 
     while ss.size() > 0:
         path = ss.pop()
@@ -62,36 +80,19 @@ def earliest_ancestor(ancestors, starting_node):
 
         if path[-1] not in visited:
             # do the thing...
-            print("path: ", path[-1])
-            # add path[0] to visited
+            # print("path: ", path[-1])
+            # add path[-1] to visited
             visited.add(path[-1])
-            print("visited: ", visited)
-            for key,vals in g.vertices.items():
-                print("key: ", key)
-                if vals is not None:
-                    for val in vals: 
-                        print("val: ", val)
                         
-                for neighbor in g.get_neighbors(path[-1]):
-                    new_path = path.copy()
-                    print("new_path", new_path)
-                    new_path.append(neighbor)
-                    ss.push(new_path)
-
-    # print(g.vertices)
-    # print("Path: ", path[-1])
-    print("Ancestor Path: ", anc_path)
+            for neighbor in g.get_neighbors(path[-1]):
+                new_path = path.copy()
+                # print("new_path", new_path)
+                new_path.append(neighbor)
+                ss.push(new_path)
+        
     return anc_path[-1]
 
-# ****Helper Functions****
-# add vert method.
-def build_graph(graph, ancestors):
-    for tup in ancestors:
-        # add_vertex is a Graph class method from graph.py.
-        graph.add_vertex(tup[0])
-        graph.add_vertex(tup[1])
-        # invert the edges to make a top to bottom graph.
-        graph.add_edge(tup[1], tup[0])
+
 
 # *****END HELPERS******
 # pdb.set_trace()
