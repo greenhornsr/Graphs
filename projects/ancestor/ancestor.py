@@ -28,44 +28,92 @@ import pdb
 '''
 
 
-# BFT
+# DFT
 def earliest_ancestor(ancestors, starting_node):
     # Create Graph, add vertices and edges
     g = Graph()
 
     # Add vertices first, then edges.  Edges won't add until vertices exist.
-    cust_add_vert(g, ancestors)
-    cust_add_edges(g, ancestors)
+    build_graph(g, ancestors)
 
-    qq = Queue()
-    qq.enqueue(starting_node) 
+    # create queue.
+    ss = Stack()
+    ss.push([starting_node]) 
 
     print("Latest graph: ", g.vertices)
     visited = set()
 
-    while qq.size() > 0:
-        path = qq.dequeue()
+    anc_path = [starting_node]
 
-        if path not in visited:
+    if len(g.vertices[starting_node]) is 0:
+        # print("test")
+        return -1
+
+    while ss.size() > 0:
+        path = ss.pop()
+
+        if len(path) > len(anc_path):
+            anc_path = path
+
+        if len(path) == len(anc_path):
+            if path[-1] < anc_path[-1]:
+                anc_path = path
+
+
+        if path[-1] not in visited:
             # do the thing...
-            print("path: ", path)
+            print("path: ", path[-1])
             # add path[0] to visited
-            visited.add(path)
+            visited.add(path[-1])
             print("visited: ", visited)
             for key,vals in g.vertices.items():
                 print("key: ", key)
                 if vals is not None:
                     for val in vals: 
                         print("val: ", val)
-    print(g.vertices)
-                # new_path = path.copy()
-                # print("neighbor: ", neighbor)
-                # print("new_path", new_path)
-                # new_path.append(neighbor)
-                # qq.enqueue(new_path)
-    # print("Path: ", path)
-    return path
-    
+                        
+                for neighbor in g.get_neighbors(path[-1]):
+                    new_path = path.copy()
+                    print("new_path", new_path)
+                    new_path.append(neighbor)
+                    ss.push(new_path)
+
+    # print(g.vertices)
+    # print("Path: ", path[-1])
+    print("Ancestor Path: ", anc_path)
+    return anc_path[-1]
+
+# ****Helper Functions****
+# add vert method.
+def build_graph(graph, ancestors):
+    for tup in ancestors:
+        # add_vertex is a Graph class method from graph.py.
+        graph.add_vertex(tup[0])
+        graph.add_vertex(tup[1])
+        # invert the edges to make a top to bottom graph.
+        graph.add_edge(tup[1], tup[0])
+
+# *****END HELPERS******
+# pdb.set_trace()
+
+# for testing/checking code.
+parent_child_rel = [(10, 1), (1,3), (2,3), (4,5), (4,8), (3,6), (5,6), (5,7), (11,8), (8,9)]
+
+
+
+earliest_ancestor(parent_child_rel, 6)
+# qq = Queue()
+# ss = Stack()
+# print("ancestors: ", parent_child_rel)
+# print(parent_child_rel[0])
+# print("first element of last tuple in parent_child_rel array/graph: ", parent_child_rel[-1][0])
+# print(qq.size())
+# print(ss.size())
+
+
+
+
+# MY EFFORTS TO GET THERE....
             # for k,v in g.vertices.items():
             #     # print(g.vertices[starting_node])
             #     print("key:", k, "v: ", v)
@@ -80,14 +128,14 @@ def earliest_ancestor(ancestors, starting_node):
     
     # return("result: ", result)
 
-    # qq = Queue()
-    # qq.enqueue(starting_node) 
+    # ss = Stack()
+    # ss.push(starting_node) 
 
     # visited = set()
-    # print("queue size: ", qq.size())
+    # print("stack size: ", ss.size())
 
-    # while qq.size() > 0:
-    #     path = qq.dequeue()
+    # while ss.size() > 0:
+    #     path = ss.pop()
     #     # print("path: ", path)
 
     #     if path not in visited:
@@ -100,46 +148,10 @@ def earliest_ancestor(ancestors, starting_node):
     #             new_path = path.copy()
     #             print("new_path", new_path)
     #             new_path.append(neighbor)
-    #             qq.enqueue(new_path)
+    #             ss.push(new_path)
     # print("Path: ", path)
     # return path
 
-# ****Helper Functions****
-# add vert method.
-def cust_add_vert(graph, ancestors):
-    for tup in ancestors:
-        # add_vertex is a Graph class method from graph.py.
-        graph.add_vertex(tup[0])
-        graph.add_vertex(tup[1])
-
-# add edges method
-def cust_add_edges(graph, ancestors):
-    for tup in ancestors:
-        graph.add_edge(tup[0], tup[1])
-
-# *****END HELPERS******
-# pdb.set_trace()
 
 
-# for testing/checking code.
-parent_child_rel = [(10, 1), (1,3), (2,3), (4,5), (4,8), (3,6), (5,6), (5,7), (11,8), (8,9)]
 
-# def test_func(arr, starting_node=6):
-#     path = [] #(3,6), (5,6)
-#     starting_node = starting_node
-#     for el in arr:
-#         p = el[0]
-#         c = el[1]
-#         if c is starting_node:
-#             path.append(el)
-#             test_func(path, )
-
-
-earliest_ancestor(parent_child_rel, 6)
-# qq = Queue()
-# ss = Stack()
-# print("ancestors: ", parent_child_rel)
-# print(parent_child_rel[0])
-# print("first element of last tuple in parent_child_rel array/graph: ", parent_child_rel[-1][0])
-# print(qq.size())
-# print(ss.size())
