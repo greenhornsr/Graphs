@@ -137,8 +137,22 @@ def cust_bft(graph, starting_vert):
 
 
 # *****END HELPERS******
-# python debugger
+# **python debugger**
 # pdb.set_trace()
+
+# Theodore Ngo's Without creating/using Graph Class Recursive implementation:
+def teddy_ngo_earliest_ancestor(ancestors, starting_node, visited=None):
+    if visited is None:
+        visited = []
+    
+    for a in ancestors:
+        if a[1] == starting_node:
+            visited.append(a[0])
+            return teddy_ngo_earliest_ancestor(ancestors, a[0, visited])
+        if a[0] == starting_node and a[0] in visited:
+            return a[0]
+    return -1
+
 
 # for testing/checking code.
 parent_child_rel = [(10, 1), (1,3), (2,3), (4,5), (4,8), (3,6), (5,6), (5,7), (11,8), (8,9)]
