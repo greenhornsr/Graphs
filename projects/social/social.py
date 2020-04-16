@@ -2,10 +2,14 @@ import random
 import sys
 sys.path.append("../graph")
 from util import Queue
+from graph import Graph
 
 class User:
     def __init__(self, name):
         self.name = name
+
+    def __repr__(self):
+        return self.name
 
 class SocialGraph:
     def __init__(self):
@@ -89,7 +93,9 @@ class SocialGraph:
 
         The key is the friend's ID and the value is the path.
         """
+        g = Graph()
         visited = {}  # Note that this is a dictionary, not a set
+        # visited = g.bft(user_id)
         # !!!! IMPLEMENT ME
         qq = Queue()
         qq.enqueue([user_id])
@@ -112,7 +118,7 @@ class SocialGraph:
                     # qq.enqueue(path)
 
 
-        # print(f"user: {user_id}")
+        # # print(f"user: {user_id}")
         return visited
 
 
@@ -121,6 +127,8 @@ if __name__ == '__main__':
     sg.populate_graph(10, 2)
     # for user in sg.users:
     #     print(f"User: {user}")
+    for k,v in sg.users.items():
+        print(f"{k}{v}")
     print("friendships: ", sg.friendships)
     connections = sg.get_all_social_paths(1)
     print(f"connections: {connections}")
